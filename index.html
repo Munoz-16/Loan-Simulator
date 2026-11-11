@@ -4,18 +4,291 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Simulator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 18px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #2563eb;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .results {
+            margin-top: 25px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: right;
+        }
+
+        th {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        @media print {
+            button, form {
+                display: none;
+            }
+
+            body {
+                background: white;
+                margin: 0;
+            }
+
+            main {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
     <header>
         <h1>Loan Simulator</h1>
+        <p>Calculate your loan and view your amortization schedule.</p>
     </header>
 
-    <!-- Future loan information form goes here -->
+    <main>
 
-    <!-- Future loan amortization table goes here -->
+        <section>
+            <h2>Loan Information</h2>
 
-    <!-- Future export and print buttons go here -->
+            <form id="loanForm">
+
+                <div class="form-group">
+                    <label for="amount">Loan Amount:</label>
+                    <input type="number" id="amount" min="0.01" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="interest">Interest Rate (%):</label>
+                    <input type="number" id="interest" min="0" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="rateType">Interest Rate Type:</label>
+                    <select id="rateType">
+                        <option value="annual">Effective Annual Rate</option>
+                        <option value="monthly">Monthly Rate</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="months">Loan Term (Months):</label>
+                    <input type="number" id="months" min="1" step="1" required>
+                </div>
+
+                <button type="submit">Calculate Loan</button>
+                <button type="reset">Clear</button>
+
+            </form>
+        </section>
+
+        <section class="results" id="results" hidden>
+
+            <h2>Loan Results</h2>
+
+            <p>
+                <strong>Monthly Payment:</strong>
+                <span id="monthlyPayment"></span>
+            </p>
+
+            <p>
+                <strong>Total Payment:</strong>
+                <span id="totalPayment"></span>
+            </p>
+
+            <p>
+                <strong>Total Interest:</strong>
+                <span id="totalInterest"></span>
+            </p>
+
+            <h2>Amortization Schedule</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Period</th>
+                            <th>Payment</th>
+                            <th>Interest</th>
+                            <th>Principal</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="amortizationTable"></tbody>
+                </table>
+            </div>
+
+            <button type="button" onclick="window.print()">
+                Print / Save as PDF
+            </button>
+
+        </section>
+
+    </main>
+
+    <script>
+        const loanForm = document.getElementById("loanForm");
+
+        loanForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const amount = Number(document.getElementById("amount").value);
+            const interest = Number(document.getElementById("interest").value);
+            const rateType = document.getElementById("rateType").value;
+            const months = Number(document.getElementById("months").value);
+
+            if (
+                !Number.isFinite(amount) ||
+                !Number.isFinite(interest) ||
+                !Number.isInteger(months) ||
+                amount <= 0 ||
+                interest < 0 ||
+                months <= 0
+            ) {
+                alert("Please enter valid loan information.");
+                return;
+            }
+
+            // Convert the interest rate into a monthly rate.
+            let monthlyRate;
+
+            if (rateType === "annual") {
+                monthlyRate = Math.pow(1 + interest / 100, 1 / 12) - 1;
+            } else {
+                monthlyRate = interest / 100;
+            }
+
+            // Calculate the monthly payment using the French method.
+            let payment;
+
+            if (monthlyRate === 0) {
+                payment = amount / months;
+            } else {
+                payment = amount * monthlyRate /
+                    (1 - Math.pow(1 + monthlyRate, -months));
+            }
+
+            let balance = amount;
+            let totalInterest = 0;
+            let tableHTML = "";
+
+            const money = value =>
+                value.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD"
+                });
+
+            // Generate the amortization schedule.
+            for (let period = 1; period <= months; period++) {
+
+                const interestPayment = balance * monthlyRate;
+                const principalPayment = payment - interestPayment;
+
+                let actualPayment = payment;
+                let actualPrincipal = principalPayment;
+
+                // Adjust the last payment to eliminate rounding differences.
+                if (period === months) {
+                    actualPrincipal = balance;
+                    actualPayment = actualPrincipal + interestPayment;
+                }
+
+                balance = Math.max(0, balance - actualPrincipal);
+                totalInterest += interestPayment;
+
+                tableHTML += `
+                    <tr>
+                        <td>${period}</td>
+                        <td>${money(actualPayment)}</td>
+                        <td>${money(interestPayment)}</td>
+                        <td>${money(actualPrincipal)}</td>
+                        <td>${money(balance)}</td>
+                    </tr>
+                `;
+            }
+
+            // Display the results.
+            document.getElementById("monthlyPayment").textContent =
+                money(payment);
+
+            document.getElementById("totalPayment").textContent =
+                money(amount + totalInterest);
+
+            document.getElementById("totalInterest").textContent =
+                money(totalInterest);
+
+            document.getElementById("amortizationTable").innerHTML =
+                tableHTML;
+
+            document.getElementById("results").hidden = false;
+        });
+
+        // Clear previous results when the form is reset.
+        loanForm.addEventListener("reset", function() {
+            document.getElementById("results").hidden = true;
+            document.getElementById("amortizationTable").innerHTML = "";
+        });
+    </script>
 
 </body>
 </html>
