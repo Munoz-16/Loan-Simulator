@@ -4,44 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Loan Simulator</title>
 
     <style>
-        /* GENERAL STYLES */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-            background-color: #f3f5f9;
-            color: #1e293b;
-            min-height: 100vh;
-        }
-
         :root {
             --navy: #142b4a;
-            --navy-light: #203e63;
             --blue: #3478f6;
             --blue-light: #eaf1ff;
             --gray: #64748b;
             --border: #e2e8f0;
-            --white: #ffffff;
             --background: #f3f5f9;
             --green: #16a36a;
         }
 
-        /* HEADER */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--background);
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
         header {
-            background-color: var(--navy);
+            background: var(--navy);
             color: white;
             padding: 22px 7%;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 15px;
         }
 
         .logo {
@@ -51,7 +47,7 @@
         }
 
         .logo-icon {
-            background-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,.12);
             width: 42px;
             height: 42px;
             border-radius: 10px;
@@ -67,7 +63,6 @@
 
         .logo h1 {
             font-size: 21px;
-            font-weight: 700;
         }
 
         .logo p {
@@ -76,15 +71,35 @@
             margin-top: 3px;
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
         .header-label {
             font-size: 12px;
             color: #cbd5e1;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,.1);
             padding: 9px 14px;
             border-radius: 20px;
         }
 
-        /* MAIN CONTAINER */
+        .language-select {
+            background: rgba(255,255,255,.12);
+            color: white;
+            border: 1px solid rgba(255,255,255,.25);
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .language-select option {
+            background: white;
+            color: var(--navy);
+        }
+
         main {
             max-width: 1250px;
             margin: 35px auto;
@@ -106,13 +121,12 @@
             font-size: 14px;
         }
 
-        /* GENERAL CARD */
         .card {
-            background: var(--white);
+            background: white;
             border: 1px solid var(--border);
             border-radius: 13px;
             padding: 25px;
-            box-shadow: 0 3px 12px rgba(15, 35, 65, 0.035);
+            box-shadow: 0 3px 12px rgba(15,35,65,.035);
         }
 
         .section-title {
@@ -149,7 +163,6 @@
             margin-top: 3px;
         }
 
-        /* FORM */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -164,10 +177,6 @@
             margin-bottom: 9px;
         }
 
-        .input-wrapper {
-            position: relative;
-        }
-
         .input-wrapper input,
         .input-wrapper select {
             width: 100%;
@@ -175,21 +184,16 @@
             padding: 0 14px;
             border: 1px solid var(--border);
             border-radius: 8px;
-            background-color: #fff;
+            background: white;
             color: #1e293b;
             font-size: 14px;
             outline: none;
-            transition: 0.2s;
         }
 
         .input-wrapper input:focus,
         .input-wrapper select:focus {
             border-color: var(--blue);
-            box-shadow: 0 0 0 3px rgba(52,120,246,0.1);
-        }
-
-        .input-wrapper input::placeholder {
-            color: #a0aec0;
+            box-shadow: 0 0 0 3px rgba(52,120,246,.1);
         }
 
         .form-hint {
@@ -198,7 +202,6 @@
             margin-top: 6px;
         }
 
-        /* BUTTONS */
         .form-actions {
             display: flex;
             gap: 12px;
@@ -216,7 +219,7 @@
             align-items: center;
             justify-content: center;
             gap: 9px;
-            transition: 0.2s;
+            transition: .2s;
         }
 
         button svg {
@@ -231,7 +234,6 @@
 
         .btn-primary:hover {
             background: #2365df;
-            transform: translateY(-1px);
         }
 
         .btn-secondary {
@@ -244,15 +246,11 @@
             background: #e2e8f0;
         }
 
-        /* RESULTS */
         .results {
             margin-top: 28px;
         }
 
         .results-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             margin-bottom: 17px;
         }
 
@@ -279,8 +277,6 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 21px;
-            position: relative;
-            overflow: hidden;
         }
 
         .summary-top {
@@ -335,7 +331,6 @@
             color: var(--green);
         }
 
-        /* AMORTIZATION TABLE */
         .table-card {
             padding: 0;
             overflow: hidden;
@@ -343,10 +338,6 @@
 
         .table-header {
             padding: 22px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
             border-bottom: 1px solid var(--border);
         }
 
@@ -380,7 +371,7 @@
             color: #64748b;
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: .4px;
             font-weight: 700;
             padding: 15px 18px;
             text-align: right;
@@ -418,10 +409,8 @@
             border-top: 1px solid var(--border);
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
         }
 
-        /* FOOTER */
         footer {
             text-align: center;
             color: #94a3b8;
@@ -429,14 +418,11 @@
             padding: 30px 15px;
         }
 
-        /* HIDDEN */
         [hidden] {
             display: none !important;
         }
 
-        /* RESPONSIVE DESIGN */
         @media (max-width: 700px) {
-
             header {
                 padding: 17px 20px;
             }
@@ -476,35 +462,28 @@
                 gap: 12px;
             }
 
-            .summary-card {
-                padding: 18px;
-            }
-
             .summary-card h2 {
                 font-size: 22px;
             }
 
-            .results-header {
-                align-items: flex-start;
-            }
-
             .table-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .table-footer {
-                flex-direction: column;
+                padding: 19px;
             }
 
             .table-footer button {
                 width: 100%;
             }
+
+            .header-right {
+                gap: 5px;
+            }
+
+            .language-select {
+                padding: 8px 7px;
+            }
         }
 
-        /* PRINT / PDF */
         @media print {
-
             body {
                 background: white;
             }
@@ -513,11 +492,11 @@
                 background: white;
                 color: var(--navy);
                 border-bottom: 2px solid var(--navy);
-                padding: 15px 0;
             }
 
             .logo-icon,
             .header-label,
+            .language-select,
             .welcome,
             #loanFormCard,
             .table-footer,
@@ -531,26 +510,17 @@
                 padding: 0;
             }
 
-            .card,
-            .summary-card {
-                box-shadow: none;
-            }
-
             .summary-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
 
-            .table-card {
-                overflow: visible;
-            }
-
+            .table-card,
             .table-container {
                 overflow: visible;
             }
 
             table {
                 min-width: 0;
-                font-size: 10px;
             }
 
             th, td {
@@ -572,10 +542,8 @@
 
 <body>
 
-    <!-- HEADER -->
     <header>
         <div class="logo">
-
             <div class="logo-icon">
                 <svg viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2"
@@ -587,31 +555,35 @@
 
             <div>
                 <h1>Loan Simulator</h1>
-                <p>Financial Planning Dashboard</p>
+                <p data-i18n="subtitle">Financial Planning Dashboard</p>
             </div>
-
         </div>
 
-        <div class="header-label">
-            LOAN CALCULATOR
+        <div class="header-right">
+            <div class="header-label" data-i18n="headerLabel">
+                LOAN CALCULATOR
+            </div>
+
+            <select id="languageSelect" class="language-select"
+                    aria-label="Select language">
+                <option value="en">🇺🇸 English</option>
+                <option value="es">🇨🇴 Español</option>
+            </select>
         </div>
     </header>
 
-
     <main>
 
-        <!-- WELCOME SECTION -->
         <section class="welcome">
-            <h2>Welcome to Loan Simulator</h2>
-            <p>Calculate your loan payments and explore your amortization schedule.</p>
+            <h2 data-i18n="welcomeTitle">Welcome to Loan Simulator</h2>
+            <p data-i18n="welcomeDescription">
+                Calculate your loan payments and explore your amortization schedule.
+            </p>
         </section>
 
-
-        <!-- LOAN FORM -->
         <section class="card" id="loanFormCard">
 
             <div class="section-title">
-
                 <div class="section-icon">
                     <svg viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="2"
@@ -622,94 +594,83 @@
                 </div>
 
                 <div>
-                    <h3>Loan Information</h3>
-                    <p>Enter your loan details below to get started.</p>
+                    <h3 data-i18n="loanInformation">Loan Information</h3>
+                    <p data-i18n="loanDescription">
+                        Enter your loan details below to get started.
+                    </p>
                 </div>
-
             </div>
 
-
             <form id="loanForm">
-
                 <div class="form-grid">
 
                     <div class="form-group">
-                        <label for="amount">Loan Amount</label>
-
+                        <label for="amount" data-i18n="loanAmount">
+                            Loan Amount
+                        </label>
                         <div class="input-wrapper">
-                            <input
-                                type="number"
-                                id="amount"
-                                placeholder="e.g. 50000"
-                                min="0.01"
-                                step="0.01"
-                                required
-                            >
+                            <input type="number" id="amount"
+                                   placeholder="e.g. 50000"
+                                   data-i18n-placeholder="amountPlaceholder"
+                                   min="0.01" step="0.01" required>
                         </div>
-
-                        <p class="form-hint">Enter the total amount borrowed.</p>
+                        <p class="form-hint" data-i18n="amountHint">
+                            Enter the total amount borrowed.
+                        </p>
                     </div>
 
-
                     <div class="form-group">
-                        <label for="interest">Interest Rate (%)</label>
-
+                        <label for="interest" data-i18n="interestRate">
+                            Interest Rate (%)
+                        </label>
                         <div class="input-wrapper">
-                            <input
-                                type="number"
-                                id="interest"
-                                placeholder="e.g. 12"
-                                min="0"
-                                step="0.01"
-                                required
-                            >
+                            <input type="number" id="interest"
+                                   placeholder="e.g. 12"
+                                   data-i18n-placeholder="interestPlaceholder"
+                                   min="0" step="0.01" required>
                         </div>
-
-                        <p class="form-hint">Enter the annual or monthly interest rate.</p>
+                        <p class="form-hint" data-i18n="interestHint">
+                            Enter the annual or monthly interest rate.
+                        </p>
                     </div>
 
-
                     <div class="form-group">
-                        <label for="rateType">Interest Rate Type</label>
-
+                        <label for="rateType" data-i18n="rateType">
+                            Interest Rate Type
+                        </label>
                         <div class="input-wrapper">
                             <select id="rateType">
-                                <option value="annual">
+                                <option value="annual" data-i18n="annualRate">
                                     Effective Annual Rate
                                 </option>
-
-                                <option value="monthly">
+                                <option value="monthly" data-i18n="monthlyRate">
                                     Monthly Rate
                                 </option>
                             </select>
                         </div>
-
-                        <p class="form-hint">Choose how your interest rate is expressed.</p>
+                        <p class="form-hint" data-i18n="rateHint">
+                            Choose how your interest rate is expressed.
+                        </p>
                     </div>
 
-
                     <div class="form-group">
-                        <label for="months">Loan Term (Months)</label>
-
+                        <label for="months" data-i18n="loanTerm">
+                            Loan Term (Months)
+                        </label>
                         <div class="input-wrapper">
-                            <input
-                                type="number"
-                                id="months"
-                                placeholder="e.g. 36"
-                                min="1"
-                                step="1"
-                                required
-                            >
+                            <input type="number" id="months"
+                                   placeholder="e.g. 36"
+                                   data-i18n-placeholder="monthsPlaceholder"
+                                   min="1" step="1" required>
                         </div>
-
-                        <p class="form-hint">Enter the total number of monthly payments.</p>
+                        <p class="form-hint" data-i18n="monthsHint">
+                            Enter the total number of monthly payments.
+                        </p>
                     </div>
 
                 </div>
 
-
                 <div class="form-actions">
-
                     <button type="submit" class="btn-primary">
                         <svg viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2"
@@ -718,10 +679,8 @@
                             <path d="M3.5 15a9 9 0 1 0 .7-7"/>
                             <path d="M12 7v5l3 2"/>
                         </svg>
-
-                        Calculate Loan
+                        <span data-i18n="calculateLoan">Calculate Loan</span>
                     </button>
-
 
                     <button type="reset" class="btn-secondary">
                         <svg viewBox="0 0 24 24" fill="none"
@@ -732,143 +691,87 @@
                             <path d="M19 6l-1 14H6L5 6"/>
                             <path d="M10 11v5M14 11v5"/>
                         </svg>
-
-                        Clear
+                        <span data-i18n="clear">Clear</span>
                     </button>
-
                 </div>
-
             </form>
-
         </section>
 
-
-        <!-- RESULTS SECTION -->
         <section class="results" id="results" hidden>
 
             <div class="results-header">
-                <div>
-                    <h3>Loan Overview</h3>
-                    <p>Here is your loan calculation summary.</p>
-                </div>
+                <h3 data-i18n="loanOverview">Loan Overview</h3>
+                <p data-i18n="overviewDescription">
+                    Here is your loan calculation summary.
+                </p>
             </div>
 
-
-            <!-- SUMMARY CARDS -->
             <div class="summary-grid">
 
-
-                <!-- MONTHLY PAYMENT -->
                 <div class="summary-card">
-
                     <div class="summary-top">
-                        <p>Monthly Payment</p>
-
-                        <div class="summary-icon">
-                            <svg viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2"
-                                 stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="5" width="18" height="14" rx="2"/>
-                                <path d="M3 10h18M7 15h3"/>
-                            </svg>
+                        <p data-i18n="monthlyPayment">Monthly Payment</p>
+                        <div class="summary-icon">$
                         </div>
                     </div>
-
-                    <h2 id="monthlyPayment">$0.00</h2>
-                    <span>Fixed monthly installment</span>
-
+                    <h2 id="monthlyPaymentValue">$0.00</h2>
+                    <span data-i18n="monthlyDescription">
+                        Fixed monthly installment
+                    </span>
                 </div>
 
-
-                <!-- TOTAL PAYMENT -->
                 <div class="summary-card total">
-
                     <div class="summary-top">
-                        <p>Total Payment</p>
-
-                        <div class="summary-icon">
-                            <svg viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2"
-                                 stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                            </svg>
-                        </div>
+                        <p data-i18n="totalPayment">Total Payment</p>
+                        <div class="summary-icon">↗</div>
                     </div>
-
-                    <h2 id="totalPayment">$0.00</h2>
-                    <span>Total amount paid over the loan term</span>
-
+                    <h2 id="totalPaymentValue">$0.00</h2>
+                    <span data-i18n="totalDescription">
+                        Total amount paid over the loan term
+                    </span>
                 </div>
 
-
-                <!-- TOTAL INTEREST -->
                 <div class="summary-card interest">
-
                     <div class="summary-top">
-                        <p>Total Interest</p>
-
-                        <div class="summary-icon">
-                            <svg viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2"
-                                 stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="M16 8h-5a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4H8"/>
-                                <path d="M12 6v12"/>
-                            </svg>
-                        </div>
+                        <p data-i18n="totalInterest">Total Interest</p>
+                        <div class="summary-icon">%</div>
                     </div>
-
-                    <h2 id="totalInterest">$0.00</h2>
-                    <span>Total interest paid to the lender</span>
-
+                    <h2 id="totalInterestValue">$0.00</h2>
+                    <span data-i18n="interestDescription">
+                        Total interest paid to the lender
+                    </span>
                 </div>
 
             </div>
 
-
-            <!-- AMORTIZATION TABLE -->
             <section class="card table-card">
-
                 <div class="table-header">
-
-                    <div>
-                        <h3>Amortization Schedule</h3>
-                        <p>Detailed breakdown of your monthly loan payments.</p>
-                    </div>
-
+                    <h3 data-i18n="amortizationTitle">
+                        Amortization Schedule
+                    </h3>
+                    <p data-i18n="amortizationDescription">
+                        Detailed breakdown of your monthly loan payments.
+                    </p>
                 </div>
-
 
                 <div class="table-container">
-
                     <table>
-
                         <thead>
                             <tr>
-                                <th>Period</th>
-                                <th>Payment</th>
-                                <th>Interest</th>
-                                <th>Principal</th>
-                                <th>Balance</th>
+                                <th data-i18n="period">Period</th>
+                                <th data-i18n="payment">Payment</th>
+                                <th data-i18n="interest">Interest</th>
+                                <th data-i18n="principal">Principal</th>
+                                <th data-i18n="balance">Balance</th>
                             </tr>
                         </thead>
-
-                        <tbody id="amortizationTable">
-                        </tbody>
-
+                        <tbody id="amortizationTable"></tbody>
                     </table>
-
                 </div>
 
-
-                <!-- TABLE ACTIONS -->
                 <div class="table-footer">
-
-                    <button
-                        type="button"
-                        class="btn-secondary"
-                        onclick="window.print()"
-                    >
+                    <button type="button" class="btn-secondary"
+                            onclick="window.print()">
                         <svg viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2"
                              stroke-linecap="round" stroke-linejoin="round">
@@ -876,65 +779,168 @@
                             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
                             <path d="M6 14h12v8H6z"/>
                         </svg>
-
-                        Print / Save as PDF
+                        <span data-i18n="printPDF">
+                            Print / Save as PDF
+                        </span>
                     </button>
-
                 </div>
-
             </section>
-
         </section>
 
     </main>
 
-
-    <!-- FOOTER -->
-    <footer>
-        Loan Simulator &copy; 2026 | Financial Planning Tool
+    <footer data-i18n="footer">
+        Loan Simulator © 2026 | Financial Planning Tool
     </footer>
 
-
-    <!-- JAVASCRIPT -->
     <script>
+        // TRANSLATIONS
+        const translations = {
+            en: {
+                subtitle: "Financial Planning Dashboard",
+                headerLabel: "LOAN CALCULATOR",
+                welcomeTitle: "Welcome to Loan Simulator",
+                welcomeDescription: "Calculate your loan payments and explore your amortization schedule.",
+                loanInformation: "Loan Information",
+                loanDescription: "Enter your loan details below to get started.",
+                loanAmount: "Loan Amount",
+                amountPlaceholder: "e.g. 50000",
+                amountHint: "Enter the total amount borrowed.",
+                interestRate: "Interest Rate (%)",
+                interestPlaceholder: "e.g. 12",
+                interestHint: "Enter the annual or monthly interest rate.",
+                rateType: "Interest Rate Type",
+                annualRate: "Effective Annual Rate",
+                monthlyRate: "Monthly Rate",
+                rateHint: "Choose how your interest rate is expressed.",
+                loanTerm: "Loan Term (Months)",
+                monthsPlaceholder: "e.g. 36",
+                monthsHint: "Enter the total number of monthly payments.",
+                calculateLoan: "Calculate Loan",
+                clear: "Clear",
+                loanOverview: "Loan Overview",
+                overviewDescription: "Here is your loan calculation summary.",
+                monthlyPayment: "Monthly Payment",
+                monthlyDescription: "Fixed monthly installment",
+                totalPayment: "Total Payment",
+                totalDescription: "Total amount paid over the loan term",
+                totalInterest: "Total Interest",
+                interestDescription: "Total interest paid to the lender",
+                amortizationTitle: "Amortization Schedule",
+                amortizationDescription: "Detailed breakdown of your monthly loan payments.",
+                period: "Period",
+                payment: "Payment",
+                interest: "Interest",
+                principal: "Principal",
+                balance: "Balance",
+                printPDF: "Print / Save as PDF",
+                footer: "Loan Simulator © 2026 | Financial Planning Tool",
+                error: "Please enter valid loan information."
+            },
+
+            es: {
+                subtitle: "Panel de Planificación Financiera",
+                headerLabel: "SIMULADOR DE CRÉDITOS",
+                welcomeTitle: "Bienvenido a Loan Simulator",
+                welcomeDescription: "Calcula las cuotas de tu crédito y consulta tu tabla de amortización.",
+                loanInformation: "Información del Crédito",
+                loanDescription: "Ingresa los datos de tu crédito para comenzar.",
+                loanAmount: "Monto del Préstamo",
+                amountPlaceholder: "Ej. 50000000",
+                amountHint: "Ingresa el monto total del préstamo.",
+                interestRate: "Tasa de Interés (%)",
+                interestPlaceholder: "Ej. 12",
+                interestHint: "Ingresa la tasa de interés anual o mensual.",
+                rateType: "Tipo de Tasa de Interés",
+                annualRate: "Tasa Efectiva Anual",
+                monthlyRate: "Tasa Mensual",
+                rateHint: "Selecciona cómo está expresada tu tasa de interés.",
+                loanTerm: "Plazo del Crédito (Meses)",
+                monthsPlaceholder: "Ej. 36",
+                monthsHint: "Ingresa el número total de cuotas mensuales.",
+                calculateLoan: "Calcular Crédito",
+                clear: "Limpiar",
+                loanOverview: "Resumen del Crédito",
+                overviewDescription: "Aquí encontrarás el resumen del cálculo de tu crédito.",
+                monthlyPayment: "Cuota Mensual",
+                monthlyDescription: "Cuota mensual fija",
+                totalPayment: "Pago Total",
+                totalDescription: "Monto total pagado durante el plazo del crédito",
+                totalInterest: "Intereses Totales",
+                interestDescription: "Total de intereses pagados al prestamista",
+                amortizationTitle: "Tabla de Amortización",
+                amortizationDescription: "Detalle de cada uno de los pagos mensuales del crédito.",
+                period: "Período",
+                payment: "Cuota",
+                interest: "Interés",
+                principal: "Abono a Capital",
+                balance: "Saldo",
+                printPDF: "Imprimir / Guardar como PDF",
+                footer: "Loan Simulator © 2026 | Herramienta de Planificación Financiera",
+                error: "Por favor, ingresa información válida para el crédito."
+            }
+        };
 
         const loanForm = document.getElementById("loanForm");
+        const languageSelect = document.getElementById("languageSelect");
 
+        let currentLanguage = "en";
+        let lastCalculation = null;
 
-        // FORMAT CURRENCY
-        const money = value => {
+        // TRANSLATE INTERFACE
+        function translatePage(language) {
+            currentLanguage = language;
+            const dictionary = translations[language];
 
-            return value.toLocaleString("en-US", {
+            document.documentElement.lang = language;
+
+            document.querySelectorAll("[data-i18n]").forEach(element => {
+                const key = element.dataset.i18n;
+                if (dictionary[key] !== undefined) {
+                    element.textContent = dictionary[key];
+                }
+            });
+
+            document.querySelectorAll("[data-i18n-placeholder]").forEach(element => {
+                const key = element.dataset.i18nPlaceholder;
+                if (dictionary[key] !== undefined) {
+                    element.placeholder = dictionary[key];
+                }
+            });
+
+            languageSelect.setAttribute(
+                "aria-label",
+                language === "es" ? "Seleccionar idioma" : "Select language"
+            );
+
+            if (lastCalculation) {
+                generateTable(lastCalculation);
+            }
+        }
+
+        languageSelect.addEventListener("change", function() {
+            translatePage(this.value);
+        });
+
+        // CURRENCY FORMAT
+        function money(value) {
+            const locale = currentLanguage === "es" ? "es-CO" : "en-US";
+
+            return value.toLocaleString(locale, {
                 style: "currency",
                 currency: "USD"
             });
-
-        };
-
+        }
 
         // CALCULATE LOAN
         loanForm.addEventListener("submit", function(event) {
-
             event.preventDefault();
 
-
-            // GET INPUT VALUES
-            const amount = Number(
-                document.getElementById("amount").value
-            );
-
-            const interest = Number(
-                document.getElementById("interest").value
-            );
-
+            const amount = Number(document.getElementById("amount").value);
+            const interest = Number(document.getElementById("interest").value);
             const rateType = document.getElementById("rateType").value;
+            const months = Number(document.getElementById("months").value);
 
-            const months = Number(
-                document.getElementById("months").value
-            );
-
-
-            // VALIDATE INPUTS
             if (
                 !Number.isFinite(amount) ||
                 !Number.isFinite(interest) ||
@@ -943,134 +949,93 @@
                 interest < 0 ||
                 months <= 0
             ) {
-
-                alert("Please enter valid loan information.");
+                alert(translations[currentLanguage].error);
                 return;
-
             }
 
-
-            // CONVERT INTEREST RATE TO MONTHLY RATE
+            // Convert interest rate to monthly rate.
             let monthlyRate;
 
             if (rateType === "annual") {
-
-                monthlyRate = Math.pow(
-                    1 + interest / 100,
-                    1 / 12
-                ) - 1;
-
+                monthlyRate = Math.pow(1 + interest / 100, 1 / 12) - 1;
             } else {
-
                 monthlyRate = interest / 100;
-
             }
 
-
-            // CALCULATE MONTHLY PAYMENT
+            // French amortization formula.
             let payment;
 
             if (monthlyRate === 0) {
-
                 payment = amount / months;
-
             } else {
-
                 payment = amount * monthlyRate /
                     (1 - Math.pow(1 + monthlyRate, -months));
-
             }
 
+            lastCalculation = {
+                amount,
+                monthlyRate,
+                months,
+                payment
+            };
 
-            // GENERATE AMORTIZATION TABLE
+            generateTable(lastCalculation);
+
+            document.getElementById("results").hidden = false;
+        });
+
+        // GENERATE AMORTIZATION TABLE
+        function generateTable(data) {
+            const { amount, monthlyRate, months, payment } = data;
+
             let balance = amount;
             let totalInterest = 0;
             let totalPaid = 0;
-
             let tableHTML = "";
 
-
             for (let period = 1; period <= months; period++) {
-
                 const interestPayment = balance * monthlyRate;
-
                 const principalPayment = payment - interestPayment;
 
                 let actualPayment = payment;
                 let actualPrincipal = principalPayment;
 
-
-                // ADJUST LAST PAYMENT
+                // Adjust final payment to clear remaining balance.
                 if (period === months) {
-
                     actualPrincipal = balance;
-
-                    actualPayment =
-                        actualPrincipal + interestPayment;
-
+                    actualPayment = actualPrincipal + interestPayment;
                 }
 
-
-                // UPDATE BALANCE
-                balance = Math.max(
-                    0,
-                    balance - actualPrincipal
-                );
-
+                balance = Math.max(0, balance - actualPrincipal);
                 totalInterest += interestPayment;
-
                 totalPaid += actualPayment;
 
-
-                // CREATE TABLE ROW
                 tableHTML += `
                     <tr>
                         <td>${period}</td>
-
                         <td>${money(actualPayment)}</td>
-
                         <td>${money(interestPayment)}</td>
-
                         <td>${money(actualPrincipal)}</td>
-
                         <td>${money(balance)}</td>
                     </tr>
                 `;
-
             }
 
-
-            // DISPLAY RESULTS
-            document.getElementById("monthlyPayment").textContent =
-                money(payment);
-
-            document.getElementById("totalPayment").textContent =
-                money(totalPaid);
-
-            document.getElementById("totalInterest").textContent =
-                money(totalInterest);
-
-
-            // DISPLAY AMORTIZATION TABLE
-            document.getElementById("amortizationTable").innerHTML =
-                tableHTML;
-
-
-            // SHOW RESULTS
-            document.getElementById("results").hidden = false;
-
-        });
-
+            document.getElementById("monthlyPaymentValue").textContent = money(payment);
+            document.getElementById("totalPaymentValue").textContent = money(totalPaid);
+            document.getElementById("totalInterestValue").textContent = money(totalInterest);
+            document.getElementById("amortizationTable").innerHTML = tableHTML;
+        }
 
         // CLEAR FORM AND RESULTS
         loanForm.addEventListener("reset", function() {
-
+            lastCalculation = null;
             document.getElementById("results").hidden = true;
-
             document.getElementById("amortizationTable").innerHTML = "";
-
         });
 
+        // INITIAL LANGUAGE
+        translatePage("en");
     </script>
 
 </body>
